@@ -1,0 +1,4 @@
+imports:
+  - package: golang.org/x/sys
+    version: a5054c7c1385fd50d9394475365355a87a7873ec
+    repo: https://github.com/golang/sys
