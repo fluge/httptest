@@ -181,14 +181,6 @@ func readFile(fileName string) (map[string]interface{}, error) {
 	return ret, nil
 }
 
-func readJson(bytes []byte) (map[string]interface{}, error) {
-	var ret map[string]interface{}
-	if err := json.Unmarshal(bytes, &ret); err != nil {
-		log.Println("read file json unmarshal: ", err.Error())
-		return nil, err
-	}
-	return ret, nil
-}
 func splitPath(path string) (string, string) {
 	arr := strings.Split(path, "/")[1:]
 	s := ""
