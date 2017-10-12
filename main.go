@@ -59,6 +59,7 @@ func main() {
 				}
 			case err := <-watcher.Errors:
 				if err != nil {
+					log.Println(err)
 					return
 				}
 			}
