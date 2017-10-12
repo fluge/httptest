@@ -23,7 +23,8 @@ func main() {
 	filePath := *path + *style
 	files, err := ioutil.ReadDir(filePath)
 	if err != nil {
-		panic(err)
+		log.Println(err, "please set httptest -path to find fixtures path")
+		return
 	}
 	isShow = *showLog
 	jsonDataMap = make(map[string]interface{}, len(files))
@@ -44,6 +45,7 @@ func main() {
 	err = watcher.Add(filePath + "/")
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	go func() { //监控文件变化，如果文件改变可以重新加载改变的文件
 		for {
@@ -57,7 +59,7 @@ func main() {
 				}
 			case err := <-watcher.Errors:
 				if err != nil {
-					panic(err)
+					return
 				}
 			}
 		}
