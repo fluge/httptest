@@ -15,7 +15,7 @@ var jsonDataMap map[string]interface{}
 var isShow bool
 
 func main() {
-	var port = flag.Int("port", 80, "local httptest server port")
+	var port = flag.Int("p", 8090, "local httptest server port")
 	var path = flag.String("path", "./test-fixtures/", "local fixtures path")
 	var style = flag.String("f", "json", "fixtures style")
 	var showLog = flag.Bool("s", false, "local httptest show log")
