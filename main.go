@@ -23,7 +23,7 @@ func main() {
 	filePath := *path + *style
 	files, err := ioutil.ReadDir(filePath)
 	if err != nil {
-		log.Println(err, "please set httptest -path to find fixtures path")
+		log.Println(err, "please use httptest -path to set fixtures path")
 		return
 	}
 	isShow = *showLog
