@@ -154,7 +154,9 @@ func jsonToResponse(w http.ResponseWriter, arr map[string]interface{}, keys stri
 			if err != nil {
 				panic(err)
 			}
-			log.Println("response :", string(data))
+			if isShow {
+				log.Println("response :", string(data))
+			}
 			w.Write(data)
 			return
 		}
