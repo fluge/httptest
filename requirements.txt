@@ -1,2 +1,2 @@
 https://github.com/fsnotify/fsnotify#4da3e2cfbabc9f751898f250b49f2439785783a1,github.com/fsnotify/fsnotify
-https://github.com/golang/sys#a5054c7c1385fd50d9394475365355a87a7873ec,golang.org/x/sys
+https://github.com/golang/sys#a646d33e2ee3172a661fc09bca23bb4889a41bc8,golang.org/x/sys
