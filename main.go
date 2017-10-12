@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -8,7 +9,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"strings"
+	"time"
 )
 
 var jsonDataMap map[string]interface{}
@@ -66,13 +70,26 @@ func main() {
 		}
 	}()
 	//读取配置文件，获取端口号
+	stopChan := make(chan os.Signal)
+	signal.Notify(stopChan, os.Interrupt)
+
 	ports := fmt.Sprintf(":%d", *port)
-	log.Println("http test server start at", ports)
+	srv := http.Server{Addr: ports}
 	http.HandleFunc("/", Handle)
-	err = http.ListenAndServe(ports, nil)
-	if err != nil {
-		log.Println(err)
-	}
+	go func() {
+		log.Println("http test server start at", ports)
+		if err := srv.ListenAndServe(); err != nil {
+			log.Printf("listen: %s\n", err)
+		}
+	}()
+	<-stopChan // wait for SIGINT
+	log.Println("Shutting down server...")
+
+	// shut down gracefully, but wait no longer than 5 seconds before halting
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	srv.Shutdown(ctx)
+
+	log.Println("Server gracefully stopped")
 }
 
 //对请求进行处理
