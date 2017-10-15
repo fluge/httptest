@@ -20,11 +20,11 @@ var isShow bool
 
 func main() {
 	var port = flag.Int("p", 8090, "local httptest server port")
-	var path = flag.String("path", "./test-fixtures/", "local fixtures path")
+	var path = flag.String("pkg", "./test-fixtures", "local test-fixtures path")
 	var style = flag.String("f", "json", "fixtures style")
 	var showLog = flag.Bool("s", false, "local httptest show log")
 	flag.Parse()
-	filePath := *path + *style
+	filePath := *path + "/" + *style
 	files, err := ioutil.ReadDir(filePath)
 	if err != nil {
 		log.Println(err, "please use httptest -path to set fixtures path")
