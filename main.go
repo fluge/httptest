@@ -35,7 +35,8 @@ func main() {
 	for _, v := range files {
 		ret, err := readFile(filePath + "/" + v.Name())
 		if err != nil {
-			panic(err)
+			errStr := fmt.Sprintf("%s %v+", v.Name(), err)
+			panic(errStr)
 		}
 		jsonDataMap[v.Name()] = ret
 	}
