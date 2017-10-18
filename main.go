@@ -56,9 +56,11 @@ func main() {
 			select {
 			case ev := <-watcher.Events:
 				if (ev.Op&fsnotify.Create == fsnotify.Create || ev.Op&fsnotify.Write == fsnotify.Write) && !strings.Contains(ev.Name, "jb_") {
-					temp, err := readFile("./" + ev.Name)
+					temp, err := readFile(ev.Name)
 					if err == nil {
-						jsonDataMap[ev.Name] = temp
+						arr := strings.Split(ev.Name, "/")
+						jsonDataMap[arr[len(arr)-1]] = temp
+
 					}
 				}
 			case err := <-watcher.Errors:
