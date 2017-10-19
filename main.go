@@ -60,8 +60,13 @@ func main() {
 					temp, err := readFile(ev.Name)
 					if err == nil {
 						arr := strings.Split(ev.Name, "/")
-						jsonDataMap[arr[len(arr)-1]] = temp
-
+						str := arr[len(arr)-1]
+						jsonDataMap[str] = temp
+						if isShow {
+							log.Println(str + " save success")
+						}
+					} else {
+						log.Println(err)
 					}
 				}
 			case err := <-watcher.Errors:
@@ -147,7 +152,16 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	if temp, ok := res[urlP]; ok { //判断时候是否是*
 		jsonToResponse(w, temp.(map[string]interface{}), keys)
 	} else {
-		w.Write([]byte("no match url ,url should is : " + urlP))
+		//
+		str := strings.Replace(urlP, "/", "", 1)
+		if temp, ok = res[str]; ok {
+			jsonToResponse(w, temp.(map[string]interface{}), keys)
+		} else {
+			if isShow {
+				log.Println("no match url ,url should is : " + urlP)
+			}
+		}
+
 	}
 }
 
@@ -166,12 +180,7 @@ func jsonToResponse(w http.ResponseWriter, arr map[string]interface{}, keys stri
 			}
 		}
 		if isKey {
-			date := map[string]interface{}{
-				"code":    0,
-				"message": "succeed",
-				"data":    v,
-			}
-			data, err := json.Marshal(date)
+			data, err := retMarshal(v)
 			if err != nil {
 				panic(err)
 			}
@@ -244,4 +253,17 @@ func json2Str(jsonData string) string {
 		str = strings.Replace(str, `\u0026`, "&", -1)
 	}
 	return str
+}
+
+func retMarshal(s interface{}) ([]byte, error) {
+	date := map[string]interface{}{
+		"code":    0,
+		"message": "succeed",
+		"data":    s,
+	}
+	data, err := json.Marshal(date)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
