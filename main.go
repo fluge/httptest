@@ -13,7 +13,6 @@ import (
 	"os/signal"
 	"strings"
 	"time"
-	"regexp"
 )
 
 var jsonDataMap map[string]interface{}
@@ -144,7 +143,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 			key = append(key, v)
 		}
 	}
-	keys:=regexp.MustCompile("\\s+").ReplaceAllString(strings.Join(key, "&"), " ")
+	keys:=strings.Replace(strings.Join(key, "&"), " ", "", -1)
 	if isShow {
 		log.Println("key:", fmt.Sprintf("%v", keys))
 
