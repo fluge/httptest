@@ -36,8 +36,9 @@ func main() {
 		ret, err := readFile(filePath + "/" + v.Name())
 		if err != nil {
 			errStr := fmt.Sprintf("%s %v+", v.Name(), err)
-			panic(errStr)
-		}
+			log.Println(errStr)
+			continue
+			}
 		jsonDataMap[v.Name()] = ret
 	}
 	//对文件进行监控，如果有修改就自动重新加载文件
